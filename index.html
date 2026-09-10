@@ -2,7 +2,7 @@
 <html lang="vi" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hướng dẫn năm 2026 của ESC về quản lý bệnh suy tim — Medical Library</title>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -11,6 +11,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root{
+  --font-scale: 1;
   --brand:#b30000;
   --brand-dark:#860000;
   --brand-soft:#fbecec;
@@ -41,7 +42,6 @@
   --document-border:#ddd;
 
   --sidebar-width:286px;
-  --document-width:920px;
   --content-gap:28px;
 
   /* ===== CỠ CHỮ CHUẨN TOÀN CỤC ===== */
@@ -51,7 +51,6 @@
 
   --radius:16px;
   --shadow:0 8px 28px rgba(20,30,40,.07);
-  --hero-height:290px;
 }
 
 html[data-theme="dark"]{
@@ -87,6 +86,15 @@ body{
   line-height:var(--line-height);
 }
 
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
+body{
+  min-width:0;
+}
+
 button,
 select{
   font:inherit;
@@ -109,7 +117,8 @@ select:focus-visible{
   grid-template-columns:var(--sidebar-width) minmax(0,1fr);
   gap:var(--content-gap);
   align-items:start;
-  width:min(100% - 40px,1320px);
+  width:calc(100% - 40px);
+  max-width:1320px;
   margin:0 auto;
   padding:24px 0 70px;
 }
@@ -125,6 +134,8 @@ select:focus-visible{
 
   height:calc(100vh - 48px);
   max-height:calc(100vh - 48px);
+  height:calc(100dvh - 48px);
+  max-height:calc(100dvh - 48px);
 
   overflow-y:auto;
   overflow-x:hidden;
@@ -249,6 +260,13 @@ html[data-theme="dark"] #tocList a{
   top:0;
   z-index:50;
 
+  /* Luôn để Hero lấy đúng chiều cao nội dung, không bị stretch */
+  height:auto;
+  min-height:0;
+  max-height:none;
+  align-self:flex-start;
+  overflow:visible;
+
   width:100%;
   margin-bottom:18px;
   padding:28px 34px;
@@ -304,6 +322,122 @@ html[data-theme="dark"] #tocList a{
   font-size:13px;
 }
 
+/* =========================================================
+   HERO – LINK BÀI ĐỌC / LIÊN HỆ
+   ========================================================= */
+
+/* Facebook + Mail: luôn nằm trên cùng một dòng */
+.reader-hero .hero-contact{
+  display:flex;
+  align-items:center;
+  flex-wrap:nowrap;
+  gap:18px;
+  margin-top:10px;
+  min-width:0;
+}
+
+.reader-hero .hero-contact-item{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+  flex:0 0 auto;
+  color:var(--text-secondary);
+  font-size:13px;
+  line-height:1.5;
+  white-space:nowrap;
+}
+
+.reader-hero .hero-contact-label{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex:0 0 16px;
+  width:16px;
+  min-width:16px;
+  color:var(--muted);
+}
+
+.reader-hero .contact-icon{
+  width:16px;
+  height:16px;
+  display:block;
+  flex:0 0 16px;
+}
+
+.reader-hero .facebook-icon{
+  color:#1877f2;
+}
+
+.reader-hero .mail-icon{
+  color:var(--blue-light);
+}
+
+.reader-hero .hero-contact a,
+.reader-hero .hero-reading-link a{
+  min-width:0;
+  color:#000;
+  font-weight:700;
+  text-decoration:none;
+  text-underline-offset:2px;
+}
+
+.reader-hero .hero-contact a:hover,
+.reader-hero .hero-reading-link a:hover{
+  color:#000;
+  text-decoration:underline;
+}
+
+/* Link bài đọc đặt riêng dưới hàng liên hệ */
+.reader-hero .hero-reading-link{
+  display:flex;
+  align-items:baseline;
+  gap:6px;
+  margin-top:8px;
+  padding-top:8px;
+  border-top:1px solid var(--border);
+  min-width:0;
+  color:#000;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.reader-hero .hero-reading-link-label{
+  flex:0 0 auto;
+  font-weight:800;
+}
+
+.reader-hero .hero-reading-link a{
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+@media(max-width:640px){
+  .reader-hero .hero-contact{
+    gap:14px;
+    margin-top:9px;
+    max-width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  .reader-hero .hero-contact::-webkit-scrollbar{
+    display:none;
+  }
+
+  .reader-hero .hero-contact-item{
+    font-size:12.5px;
+  }
+
+  .reader-hero .hero-reading-link{
+    margin-top:8px;
+    padding-top:8px;
+    font-size:12.5px;
+  }
+}
+
 .hero-meta{
   display:flex;
   flex-wrap:wrap;
@@ -345,11 +479,16 @@ html[data-theme="dark"] #tocList a{
 
   padding:28px 30px 55px;
 
-  font-size:var(--body-size);
+  font-size:calc(var(--body-size) * var(--font-scale));
+  text-justify:inter-word;
+  hyphens:auto;
+  -webkit-hyphens:auto;
+
   line-height:var(--line-height);
 
   color:var(--text);
 
+  /* Mặc định mọi nội dung văn bản là căn đều hai bên; thành phần có quy định riêng sẽ override */
   text-align:justify;
   overflow-wrap:break-word;
 }
@@ -367,6 +506,17 @@ html[data-theme="dark"] #tocList a{
 .document-surface th{
   color:var(--text);
 }
+
+/* Căn đều mặc định cho nội dung văn bản, trừ các thành phần có quy định căn lề riêng */
+.document-surface p,
+.document-surface li,
+.document-surface dt,
+.document-surface dd,
+.document-surface td,
+.document-surface th{
+  text-align:justify;
+}
+
 
 .document-surface p{
   margin:0 0 1rem;
@@ -536,8 +686,9 @@ html[data-theme="dark"] #tocList a{
   -webkit-overflow-scrolling:touch;
 }
 
-.document-surface table{
+ .document-surface table{
   width:100%;
+  min-width:100%;
 
   border-collapse:collapse;
   border-spacing:0;
@@ -564,7 +715,7 @@ html[data-theme="dark"] #tocList a{
 
   border:1px solid var(--document-border);
 
-  text-align:justify;
+  text-align:left;
   vertical-align:top;
 }
 
@@ -1020,6 +1171,11 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
    RESPONSIVE / MEDIA QUERIES
    ========================================================= */
 
+.mobile-sticky-shell{
+  width:100%;
+  min-width:0;
+}
+
 .mobile-toc{
   display:none;
 }
@@ -1027,11 +1183,13 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
 @media(max-width:980px){
   :root{
     --sidebar-width:0px;
+    --body-size:15.5px;
   }
 
   .reader-layout{
     display:block;
-    width:min(100% - 20px,1320px);
+    width:calc(100% - 20px);
+    max-width:1320px;
     padding-top:10px;
   }
 
@@ -1059,9 +1217,11 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
   }
 
   .mobile-toc select{
-    flex:1;
+    flex:1 1 auto;
     min-width:0;
-    height:36px;
+    max-width:100%;
+    min-height:44px;
+    height:44px;
     padding:0 8px;
     border:1px solid var(--border);
     border-radius:8px;
@@ -1069,32 +1229,77 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
     color:var(--text);
   }
 
-  .reader-hero{
+  /* Hero + Mục lục cố định cùng nhau trên mobile/tablet */
+  .mobile-sticky-shell{
+    position:sticky;
     top:0;
+    z-index:60;
+    width:100%;
+    padding-top:10px;
+    background:var(--page-bg);
+  }
+
+  .reader-hero{
+    position:relative;
+    top:auto;
+    z-index:1;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
     padding:20px;
+    margin:0 0 14px;
+    box-shadow:var(--shadow);
   }
 
   .reader-hero h1{
-    font-size:28px;
+    font-size:24px;
   }
 
   .document-surface article{
-    padding:18px 18px 40px;
+    padding:20px 18px 40px;
   }
 }
 
 @media(max-width:640px){
+  :root{
+    --body-size:15px;
+    --paragraph-indent:0;
+    --line-height:1.6;
+  }
+
   .reader-layout{
-    width:calc(100% - 14px);
+    width:calc(100% - 16px);
+    padding-left:max(0px, env(safe-area-inset-left));
+    padding-right:max(0px, env(safe-area-inset-right));
+  }
+
+  .mobile-sticky-shell{
+    padding-top:8px;
   }
 
   .reader-hero{
-    padding:18px 16px;
+    height:auto !important;
+    min-height:0 !important;
+    padding:16px 14px;
     border-radius:12px;
   }
 
   .reader-hero h1{
-    font-size:25px;
+    font-size:21px;
+    line-height:1.25;
+  }
+
+  .reader-hero p{
+    font-size:12.5px;
+  }
+
+  .hero-meta{
+    gap:6px;
+    margin-top:12px;
+  }
+
+  .hero-meta span{
+    font-size:9.5px;
   }
 
   .document-surface{
@@ -1102,27 +1307,64 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
   }
 
   .document-surface article{
-    padding:15px 14px 35px;
+    padding:16px 14px 35px;
+    text-align:justify;
+    min-width:0;
   }
 
-  .document-surface h1{
-    font-size:1.65em;
+  .document-surface a,
+  .document-surface td,
+  .document-surface th{
+    overflow-wrap:anywhere;
   }
 
-  .document-surface h2{
-    font-size:1.4em;
-  }
+  .document-surface h1{ font-size:1.45em; margin:1.4rem 0 .8rem; }
+  .document-surface h2{ font-size:1.3em; margin:1.3em 0 .6em; }
+  .document-surface h3{ font-size:1.15em; margin:1.1em 0 .5em; }
+  .document-surface h4{ font-size:1.05em; margin:1em 0 .4em; }
+  .document-surface h5{ font-size:.95em; }
 
-  .document-surface h3{
-    font-size:1.2em;
-  }
-
-  .document-surface h4{
-    font-size:1.1em;
+  .document-surface h1,
+  .document-surface h2,
+  .document-surface h3,
+  .document-surface h4,
+  .document-surface h5{
+    scroll-margin-top:12px;
   }
 
   .document-surface article>p{
-    text-indent:1.15rem;
+    text-indent:0;
+  }
+
+  .document-surface table{
+    font-size:13.5px;
+  }
+
+  /* Fallback for wide tables. Prefer .table-wrapper when authoring tables. */
+  .document-surface .table-wrapper{
+    max-width:100%;
+    touch-action:pan-x;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+    scrollbar-width:thin;
+  }
+
+  .document-surface .table-wrapper table{
+    width:max-content;
+    min-width:100%;
+  }
+
+  .document-surface th,
+  .document-surface td{
+    padding:7px 8px;
+    text-align:justify;
+  }
+
+  .document-surface .info-box,
+  .document-surface .step-card,
+  .document-surface .abbreviations{
+    font-size:14px;
+    padding:12px;
   }
 
   .document-surface .grid-2col,
@@ -1135,7 +1377,7 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
   }
 
   .document-surface .abbr-container{
-    padding:15px;
+    padding:14px;
   }
 
   .document-surface .compact-grid{
@@ -1153,49 +1395,271 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
 
 
 /* =========================================================
-   ANTI-PRINT
+   PRINT / PDF
    ========================================================= */
 
-#printProtection{
-  display:none;
+/* Print-only HTML helpers are hidden in the normal reading view.
+   The actual printed header/footer are generated by @page margin boxes. */
+.print-header,
+.print-footer,
+.print-layout,
+.print-watermark{
+  display:none !important;
+  visibility:hidden !important;
 }
 
 @media print{
+
+  @page{
+    size:A4 portrait;
+    margin:9mm 18mm 9mm 18mm;
+    background:#ffffff;
+
+    /* ===== GÓC TRÊN ===== */
+    @top-left-corner{
+      content:"";
+      background:#860000;
+    }
+    @top-right-corner{
+      content:"";
+      background:#860000;
+    }
+
+    @top-left{
+      content:"Khuyến cáo ESC 2026 về quản lý bệnh tim mạch và bệnh thận mạn";
+      background:#860000;
+      color:#fff;
+      font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+      font-size:8pt;
+      font-weight:800;
+      white-space:nowrap;
+      text-align:left;
+      vertical-align:middle;
+      padding:1mm 4mm;
+    }
+
+    @top-center{
+      content:"";
+      background:#860000;
+    }
+
+    @top-right{
+      content:"Biên dịch: BS. Trần Thanh Hoàng Linh";
+      background:#860000;
+      color:#fff;
+      font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+      font-size:8pt;
+      font-weight:800;
+      white-space:nowrap;
+      text-align:right;
+      vertical-align:middle;
+      padding:1mm 4mm;
+    }
+
+    /* ===== GÓC DƯỚI ===== */
+    @bottom-left-corner{
+      content:"";
+      background:#e3e3e3;
+    }
+    @bottom-right-corner{
+      content:"";
+      background:#e3e3e3;
+    }
+
+    @bottom-left{
+      content:"ⓕ  Hoàng Linh";
+      background:#e3e3e3;
+      color:#111;
+      font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+      font-size:7pt;
+      font-weight:700;
+      white-space:nowrap;
+      text-align:left;
+      vertical-align:middle;
+      padding:1mm 4mm;
+    }
+
+    @bottom-center{
+      content:"Link đọc bài viết: https://huberton176.github.io/esc2026ckd/";
+      background:#e3e3e3;
+      color:#111;
+      font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+      font-size:7pt;
+      font-weight:700;
+      white-space:nowrap;
+      text-align:center;
+      vertical-align:middle;
+      padding:1mm;
+    }
+
+    @bottom-right{
+      content:counter(page);
+      background:#e3e3e3;
+      color:#111;
+      font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
+      font-size:7pt;
+      font-weight:700;
+      white-space:nowrap;
+      text-align:right;
+      vertical-align:middle;
+      padding:1mm 4mm;
+    }
+  }
+
   html,
   body{
     background:#fff!important;
+    color:#111!important;
+    margin:0!important;
+    padding:0!important;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
   }
 
-  body *{
-    visibility:hidden!important;
+  body::before,
+  body::after{
+    content:none!important;
+    display:none!important;
   }
 
-  #printProtection,
-  #printProtection *{
-    visibility:visible!important;
+  .reader-layout{
+    position:relative!important;
+    z-index:auto!important;
+    display:block!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0!important;
   }
 
-  #printProtection{
+  .toc-panel,
+  .mobile-toc,
+  .print-header,
+  .print-footer{
+    display:none!important;
+  }
+
+  .reader-main{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .mobile-sticky-shell{
+    position:static!important;
+    width:100%!important;
+    margin:0 0 7mm!important;
+    padding:0!important;
+    background:transparent!important;
+    break-inside:avoid-page;
+    page-break-inside:avoid;
+  }
+
+  .reader-hero{
+    position:static!important;
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin:0!important;
+    padding:7mm 9mm!important;
+    overflow:visible!important;
+    box-sizing:border-box!important;
+    break-inside:avoid-page;
+    page-break-inside:avoid;
+    box-shadow:none!important;
+    border:0.3mm solid #cfd5da!important;
+    border-radius:5mm!important;
+    background:#fff!important;
+  }
+
+  .reader-hero::after{
+    display:none!important;
+  }
+
+  .document-surface{
+    width:100%!important;
+    margin:0!important;
+    box-shadow:none!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+  }
+
+  .document-surface article{
+    width:100%!important;
+    background:transparent!important;
+  }
+
+  .print-watermark{
     display:flex!important;
-    position:fixed;
-    inset:0;
-    z-index:999999;
-    align-items:center;
-    justify-content:center;
-    padding:40px;
-    background:#fff;
-    color:#111;
-    font-family:Arial,sans-serif;
-    text-align:center;
-    font-size:20px;
-    line-height:1.5;
+    visibility:visible!important;
+    position:fixed!important;
+    left:50%!important;
+    top:50%!important;
+    transform:translate(-50%,-50%)!important;
+    width:auto!important;
+    height:150vh!important;
+    align-items:center!important;
+    justify-content:center!important;
+    pointer-events:none!important;
+    opacity:.08!important;
+    z-index:0!important;
   }
 
-  #printProtection strong{
-    display:block;
-    margin-bottom:10px;
-    color:#b30000;
-    font-size:26px;
+  .print-watermark img{
+    display:block!important;
+    width:auto!important;
+    height:150vh!important;
+    max-width:90vw!important;
+    margin:0!important;
+    object-fit:contain!important;
+  }
+
+  .document-surface *{
+    position:relative;
+    z-index:1;
+  }
+
+  .document-surface h1,
+  .document-surface h2,
+  .document-surface h3,
+  .document-surface h4,
+  .document-surface h5,
+  .document-surface figure,
+  .document-surface table,
+  .document-surface tr,
+  .document-surface .info-box,
+  .document-surface .step-card,
+  .document-surface .abbr-container,
+  .document-surface .abbreviations{
+    break-inside:avoid;
+    page-break-inside:avoid;
+  }
+
+  .document-surface table{
+    break-inside:auto;
+    page-break-inside:auto;
+  }
+
+  .document-surface thead{
+    display:table-header-group;
+  }
+
+  .document-surface tfoot{
+    display:table-footer-group;
+  }
+
+  .document-surface .table-wrapper{
+    overflow:visible!important;
+    break-inside:auto;
+  }
+
+  a{
+    color:#004b87!important;
+    text-decoration:none!important;
   }
 }
 
@@ -1217,18 +1681,46 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
 
   <main class="reader-main">
 
-<section class="reader-hero" id="readerHero">
-    <p class="kicker">GUIDELINE</p>
-    <h1 style="color: #b30000; font-size: 30px;">
+    <div class="mobile-sticky-shell">
+      <section class="reader-hero" id="readerHero">
+        <p class="kicker">GUIDELINE</p>
+    <h1 style="color: #b30000; font-size: 25px;">
         Khuyến cáo ESC 2026 về quản lý bệnh tim mạch và bệnh thận mạn, phối hợp với Hiệp hội Thận học Châu Âu (ERA).
-    </h1>
-    <p>Biên dịch: <strong style="color: #0066cc;">BS. TRẦN THANH HOÀNG LINH</strong></p>
-</section>
+        </h1>
+        <p>Biên dịch: <strong style="color: #0066cc;">BS. TRẦN THANH HOÀNG LINH</strong></p>
 
-    <div class="mobile-toc">
-      <label for="mobileToc">Mục lục</label>
-      <select id="mobileToc"><option value="">Mục lục tài liệu…</option></select>
+        <div class="hero-contact" aria-label="Thông tin liên hệ">
+          <div class="hero-contact-item">
+            <span class="hero-contact-label" aria-label="Facebook">
+              <svg class="contact-icon facebook-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.019 4.388 11.006 10.125 11.923v-8.432H7.078v-3.491h3.047V9.413c0-3.017 1.792-4.689 4.533-4.689 1.312 0 2.686.235 2.686.235v2.973h-1.514c-1.491 0-1.955.93-1.955 1.885v2.261h3.328l-.532 3.491h-2.796v8.432C19.612 23.079 24 18.092 24 12.073z"/>
+              </svg>
+            </span>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer">Hoàng Linh</a>
+          </div>
+
+          <div class="hero-contact-item">
+            <span class="hero-contact-label" aria-label="Email">
+              <svg class="contact-icon mail-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/>
+              </svg>
+            </span>
+            <a href="mailto:dr.tthlinh@gmail.com">dr.tthlinh@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="hero-reading-link">
+          <span class="hero-reading-link-label">Link bài đọc:</span>
+          <a href="https://huberton176.github.io/esc2026ckd/" target="_blank" rel="noopener noreferrer">https://huberton176.github.io/esc2026ckd/</a>
+        </div>
+      </section>
+
+      <div class="mobile-toc">
+        <label for="mobileToc">Mục lục</label>
+        <select id="mobileToc"><option value="">Mục lục tài liệu…</option></select>
+      </div>
     </div>
+
     <section class="document-surface">
 
 <article>
@@ -4664,29 +5156,58 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
     </dl>
 </div>
 
-
-
-
-
-
-
-
-
 </article>
     </section>
   </main>
 </div>
 
-<div id="printProtection" role="alert" aria-live="polite">
-  <div>
-    <strong>Medical Library</strong>
-    Tài liệu này không hỗ trợ in hoặc xuất bản qua chức năng Print của trình duyệt.
+<!-- Print-only header/footer. Hidden during normal reading; shown only in print. -->
+<div class="print-header" aria-hidden="true">
+  <div class="print-layout-left">
+    <svg class="print-contact-icon facebook-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.019 4.388 11.006 10.125 11.923v-8.432H7.078v-3.491h3.047V9.413c0-3.017 1.792-4.689 4.533-4.689 1.312 0 2.686.235 2.686.235v2.973h-1.514c-1.491 0-1.955.93-1.955 1.885v2.261h3.328l-.532 3.491h-2.796v8.432C19.612 23.079 24 18.092 24 12.073z"/>
+    </svg>
+    <span>Hoàng Linh</span>
   </div>
+  <div class="print-layout-center">
+    <span>Link bài đọc:</span>
+    <a href="https://huberton176.github.io/esc2026ckd/">https://huberton176.github.io/esc2026ckd/</a>
+  </div>
+  <div class="print-layout-right">
+    <svg class="print-contact-icon mail-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/>
+    </svg>
+    <span>dr.tthlinh@gmail.com</span>
+  </div>
+</div>
+
+<div class="print-footer" aria-hidden="true">
+  <div class="print-layout-left">
+    <svg class="print-contact-icon facebook-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073c0 6.019 4.388 11.006 10.125 11.923v-8.432H7.078v-3.491h3.047V9.413c0-3.017 1.792-4.689 4.533-4.689 1.312 0 2.686.235 2.686.235v2.973h-1.514c-1.491 0-1.955.93-1.955 1.885v2.261h3.328l-.532 3.491h-2.796v8.432C19.612 23.079 24 18.092 24 12.073z"/>
+    </svg>
+    <span>Hoàng Linh</span>
+  </div>
+  <div class="print-layout-center">
+    <span>Link bài đọc:</span>
+    <a href="https://huberton176.github.io/esc2026ckd/">https://huberton176.github.io/esc2026ckd/</a>
+  </div>
+  <div class="print-layout-right">
+    <svg class="print-contact-icon mail-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/>
+    </svg>
+    <span>dr.tthlinh@gmail.com</span>
+  </div>
+</div>
+
+<div class="print-watermark" aria-hidden="true">
+  <img src="https://file.garden/aRcee0oeuCLsBw6X/logo" alt="">
 </div>
 
 <script>
 
 (function(){
+
   const root = document.documentElement;
   const hero = document.getElementById("readerHero");
   const tocList = document.getElementById("tocList");
@@ -4701,11 +5222,6 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
   ));
 
   function normalize(t){ return String(t || "").replace(/\s+/g," ").trim(); }
-
-  function syncHeroHeight(){
-    if (!hero) return;
-    root.style.setProperty("--hero-height", Math.ceil(hero.getBoundingClientRect().height) + "px");
-  }
 
   function buildTOC(){
     const headings = $allHeadings();
@@ -4747,7 +5263,13 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
   function updateActive(headings){
     if (!headings.length) return;
 
-    const cursor = window.scrollY + hero.getBoundingClientRect().height + 30;
+    // Trên mobile, Hero không còn sticky nên giảm khoảng bù trừ cuộn (offset)
+    const isMobile = window.innerWidth <= 980;
+    const stickyShell = document.querySelector(".mobile-sticky-shell");
+    const heroOffset = isMobile
+      ? ((stickyShell ? stickyShell.getBoundingClientRect().height : hero.getBoundingClientRect().height) + 16)
+      : (hero.getBoundingClientRect().height + 30);
+    const cursor = window.scrollY + heroOffset;
     let current = headings[0];
 
     for (const heading of headings){
@@ -4760,7 +5282,7 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
       link.classList.toggle("active", link.dataset.target === current.id);
     });
 
-    mobileToc.value = current.id;
+    if (mobileToc) mobileToc.value = current.id;
   }
 
   function updateProgress(){
@@ -4771,8 +5293,8 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
   }
 
   function applyFont(){
-    const article = document.querySelector(".document-surface article");
-    if (article) article.style.fontSize = (18 * fontScale) + "px";
+    // Gán tỉ lệ vào biến CSS thay vì ép cứng 18px vào thẻ
+    root.style.setProperty("--font-scale", fontScale.toFixed(2));
     localStorage.setItem(fontKey, fontScale.toFixed(2));
   }
 
@@ -4781,35 +5303,7 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
     localStorage.setItem(themeKey, theme);
   }
 
-  /* Anti-print: browser shortcut */
-  document.addEventListener("keydown", function(e){
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "p"){
-      e.preventDefault();
-      return;
-    }
 
-    if ((e.ctrlKey || e.metaKey) && (e.key === "+" || e.key === "=")){
-      e.preventDefault();
-      fontScale = Math.min(1.28, +(fontScale + .05).toFixed(2));
-      applyFont();
-    }
-
-    if ((e.ctrlKey || e.metaKey) && e.key === "-"){
-      e.preventDefault();
-      fontScale = Math.max(.88, +(fontScale - .05).toFixed(2));
-      applyFont();
-    }
-
-    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "d"){
-      e.preventDefault();
-      applyTheme(root.dataset.theme === "dark" ? "light" : "dark");
-    }
-  });
-
-  /* Anti-print: hide content in actual print preview */
-  window.addEventListener("beforeprint", function(){
-    document.body.setAttribute("data-print-blocked", "true");
-  });
 
   mobileToc.addEventListener("change", function(){
     if (!this.value) return;
@@ -4819,21 +5313,12 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
 
   window.addEventListener("scroll", updateProgress, {passive:true});
   window.addEventListener("resize", function(){
-    syncHeroHeight();
     updateProgress();
   });
-
-  if (window.ResizeObserver){
-    new ResizeObserver(syncHeroHeight).observe(hero);
-  }
 
   applyTheme(localStorage.getItem(themeKey) || "light");
   applyFont();
   buildTOC();
-
-  requestAnimationFrame(syncHeroHeight);
-  setTimeout(syncHeroHeight, 500);
-  setTimeout(syncHeroHeight, 1500);
 
   updateProgress();
 
