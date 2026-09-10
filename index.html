@@ -253,12 +253,14 @@ html[data-theme="dark"] #tocList a{
 
 .reader-main{
   min-width:0;
+  align-self:start;
 }
 
 .reader-hero{
   position:sticky;
   top:0;
-  z-index:50;
+  z-index:100;
+  align-self:flex-start;
 
   /* Luôn để Hero lấy đúng chiều cao nội dung, không bị stretch */
   height:auto;
@@ -279,6 +281,30 @@ html[data-theme="dark"] #tocList a{
   box-shadow:0 12px 28px rgba(20,30,40,.10);
 
   isolation:isolate;
+}
+
+/* ===== GIỮ BOX GUIDELINE CỐ ĐỊNH KHI CUỘN ===== */
+@media(min-width:981px){
+  .reader-main{
+    align-self:start;
+  }
+
+  /* Sticky phải đặt trên lớp vỏ ngoài, vì mobile-sticky-shell
+     là parent của hero. Khi hero tự sticky bên trong parent có
+     chiều cao chỉ bằng hero, nó sẽ không thể bám xuyên suốt tài liệu. */
+  .mobile-sticky-shell{
+    position:sticky !important;
+    top:0 !important;
+    z-index:100 !important;
+    align-self:flex-start !important;
+    width:100%;
+  }
+
+  .reader-hero{
+    position:relative !important;
+    top:auto !important;
+    z-index:1 !important;
+  }
 }
 
 .reader-hero::after{
@@ -1426,7 +1452,7 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
     }
 
     @top-left{
-      content:"Khuyến cáo ESC 2026 về quản lý bệnh tim mạch và bệnh thận mạn";
+      content:"Khuyến cáo ESC 2026 về quản lý bệnh tim mạch và bệnh thận mạn, phối hợp với Hiệp hội Thận học Châu Âu (ERA)";
       background:#860000;
       color:#fff;
       font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
