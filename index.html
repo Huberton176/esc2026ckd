@@ -3,1422 +3,1232 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hướng dẫn năm 2026 của ESC về quản lý bệnh suy tim — Medical Library</title>
+<title>Khuyến cáo ESC 2026 về quản lý bệnh tim mạch và bệnh thận mạn</title>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 <style>
+/* =========================================================
+   MEDICAL LIBRARY — READER DESIGN SYSTEM v2.0
+   Purpose: shared stylesheet for long-form medical documents
+   Works with the existing HTML structure/classes.
+   ========================================================= */
 
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
-:root{
-  --font-scale: 1;
-  --brand:#b30000;
-  --brand-dark:#860000;
-  --brand-soft:#fbecec;
+/* =========================================================
+   01. DESIGN TOKENS
+   ========================================================= */
+:root {
+  /* Brand */
+  --ml-brand: #b30000;
+  --ml-brand-strong: #860000;
+  --ml-brand-soft: #fbecec;
+  --ml-brand-softer: #fff6f6;
 
-  --blue:#004b87;
-  --blue-light:#0056b3;
+  /* Accent / links */
+  --ml-blue: #004b87;
+  --ml-blue-strong: #0056b3;
+  --ml-blue-soft: #edf5fb;
 
-  --class-i:#4caf50;
-  --class-iia:#ffc107;
-  --class-iib:#ff9800;
-  --class-iii:#f44336;
+  /* Recommendation / evidence */
+  --ml-class-i: #2f8f46;
+  --ml-class-iia: #ffc107;
+  --ml-class-iib: #f28c00;
+  --ml-class-iii: #d9363e;
+  --ml-level-a: #00798c;
+  --ml-level-b1: #459a96;
+  --ml-level-b2: #67a8a4;
+  --ml-level-c: #83b6b2;
 
-  --level-a:#00798c;
-  --level-b:#459a96;
-  --level-b1:#459a96; /* Trùng mã màu với B */
-  --level-b2:#67a8a4; /* Nhạt hơn B1, chuyển tiếp hài hòa sang C */
-  --level-c:#83b6b2;
+  /* Surfaces */
+  --ml-page-bg: #f2f4f6;
+  --ml-surface: #ffffff;
+  --ml-surface-soft: #f8fafb;
+  --ml-surface-raised: #ffffff;
 
-  --page-bg:#f2f4f6;
-  --surface:#fff;
-  --surface-soft:#f8fafb;
+  /* Text */
+  --ml-text: #172033;
+  --ml-text-secondary: #4a4a4a;
+  --ml-muted: #687384;
+  --ml-heading: #172033;
+  --ml-inverse: #ffffff;
 
-  --text:#172033;
-  --text-secondary:#4a4a4a;
-  --muted:#687384;
+  /* Borders / dividers */
+  --ml-border: #dfe4e8;
+  --ml-border-strong: #c9d1d9;
+  --ml-document-border: #d7dde2;
 
-  --border:#dfe4e8;
-  --document-border:#ddd;
+  /* Geometry */
+  --ml-sidebar-width: 286px;
+  --ml-content-gap: 28px;
+  --ml-container-max: 1320px;
+  --ml-article-max: 960px;
+  --ml-radius-sm: 8px;
+  --ml-radius-md: 12px;
+  --ml-radius-lg: 16px;
+  --ml-radius-pill: 999px;
 
-  --sidebar-width:286px;
-  --content-gap:28px;
+  /* Spacing */
+  --ml-space-1: 4px;
+  --ml-space-2: 8px;
+  --ml-space-3: 12px;
+  --ml-space-4: 16px;
+  --ml-space-5: 20px;
+  --ml-space-6: 24px;
+  --ml-space-7: 32px;
+  --ml-space-8: 40px;
+  --ml-space-9: 56px;
 
-  /* ===== CỠ CHỮ CHUẨN TOÀN CỤC ===== */
-  --body-size:16px;
-  --line-height:1.65;
-  --paragraph-indent:2rem;
+  /* Typography */
+  --ml-font-ui: "Roboto", "Segoe UI", Arial, sans-serif;
+  --ml-font-reading: "Noto Sans", "Segoe UI", Roboto, Arial, sans-serif;
+  --ml-body-size: 16px;
+  --ml-body-size-tablet: 15.5px;
+  --ml-body-size-mobile: 15.5px;
+  --ml-line-height: 1.68;
+  --ml-paragraph-indent: 2rem;
+  --ml-font-scale: 1;
 
-  --radius:16px;
-  --shadow:0 8px 28px rgba(20,30,40,.07);
+  /* Effects */
+  --ml-shadow-sm: 0 2px 8px rgba(20, 30, 40, .05);
+  --ml-shadow-md: 0 8px 28px rgba(20, 30, 40, .07);
+  --ml-shadow-lg: 0 12px 28px rgba(20, 30, 40, .10);
+  --ml-focus-ring: 0 0 0 3px rgba(179, 0, 0, .18);
+
+  /* Layers */
+  --ml-z-toc: 40;
+  --ml-z-sticky: 60;
+  --ml-z-modal: 100;
+  --ml-z-print-watermark: 9999;
 }
 
-html[data-theme="dark"]{
-  --page-bg:#0d0f12;
-  --surface:#15181c;
-  --surface-soft:#1b1f24;
-
-  --text:#eef2f6;
-  --text-secondary:#b8c1cc;
-  --muted:#a3adba;
-
-  --border:#30363d;
-  --document-border:#30363d;
+/* Backward-compatible aliases used by the current HTML/JS. */
+:root {
+  --brand: var(--ml-brand);
+  --brand-dark: var(--ml-brand-strong);
+  --brand-soft: var(--ml-brand-soft);
+  --blue: var(--ml-blue);
+  --blue-light: var(--ml-blue-strong);
+  --class-i: var(--ml-class-i);
+  --class-iia: var(--ml-class-iia);
+  --class-iib: var(--ml-class-iib);
+  --class-iii: var(--ml-class-iii);
+  --level-a: var(--ml-level-a);
+  --level-b: var(--ml-level-b1);
+  --level-b1: var(--ml-level-b1);
+  --level-b2: var(--ml-level-b2);
+  --level-c: var(--ml-level-c);
+  --page-bg: var(--ml-page-bg);
+  --surface: var(--ml-surface);
+  --surface-soft: var(--ml-surface-soft);
+  --text: var(--ml-text);
+  --text-secondary: var(--ml-text-secondary);
+  --muted: var(--ml-muted);
+  --border: var(--ml-border);
+  --document-border: var(--ml-document-border);
+  --sidebar-width: var(--ml-sidebar-width);
+  --content-gap: var(--ml-content-gap);
+  --body-size: var(--ml-body-size);
+  --line-height: var(--ml-line-height);
+  --paragraph-indent: var(--ml-paragraph-indent);
+  --font-scale: var(--ml-font-scale);
 }
 
+/* =========================================================
+   02. THEME
+   ========================================================= */
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ml-page-bg: #0d0f12;
+  --ml-surface: #15181c;
+  --ml-surface-soft: #1b1f24;
+  --ml-surface-raised: #1a1e23;
+
+  --ml-text: #eef2f6;
+  --ml-text-secondary: #c0c8d1;
+  --ml-muted: #a3adba;
+  --ml-heading: #f5f7fa;
+
+  --ml-border: #30363d;
+  --ml-border-strong: #414952;
+  --ml-document-border: #30363d;
+
+  --ml-brand-soft: #361b1f;
+  --ml-brand-softer: #241517;
+  --ml-blue-soft: #172733;
+
+  --ml-shadow-sm: 0 2px 8px rgba(0, 0, 0, .20);
+  --ml-shadow-md: 0 8px 28px rgba(0, 0, 0, .24);
+  --ml-shadow-lg: 0 12px 28px rgba(0, 0, 0, .28);
+}
+
+/* =========================================================
+   03. BASE / RESET
+   ========================================================= */
 *,
 *::before,
-*::after{
-  box-sizing:border-box;
+*::after {
+  box-sizing: border-box;
 }
 
-html{
-  scroll-behavior:smooth;
-  background:var(--page-bg);
+html {
+  scroll-behavior: smooth;
+  background: var(--ml-page-bg);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
-body{
-  margin:0;
-  background:var(--page-bg);
-  color:var(--text);
-  font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
-  font-size:var(--body-size);
-  line-height:var(--line-height);
+body {
+  min-width: 0;
+  margin: 0;
+  background: var(--ml-page-bg);
+  color: var(--ml-text);
+  font-family: var(--ml-font-reading);
+  font-size: var(--ml-body-size);
+  line-height: var(--ml-line-height);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-html{
-  -webkit-text-size-adjust:100%;
-  text-size-adjust:100%;
-}
-
-body{
-  min-width:0;
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
 }
 
 button,
-select{
-  font:inherit;
+select,
+input,
+textarea {
+  font: inherit;
 }
 
-button:focus-visible,
-a:focus-visible,
-select:focus-visible{
-  outline:3px solid rgba(179,0,0,.25);
-  outline-offset:2px;
+button,
+select {
+  color: inherit;
 }
 
-
-/* =========================================================
-   LAYOUT
-   ========================================================= */
-
-.reader-layout{
-  display:grid;
-  grid-template-columns:var(--sidebar-width) minmax(0,1fr);
-  gap:var(--content-gap);
-  align-items:start;
-  width:calc(100% - 40px);
-  max-width:1320px;
-  margin:0 auto;
-  padding:24px 0 70px;
+:where(a, button, select, input, textarea):focus-visible {
+  outline: 3px solid rgba(179, 0, 0, .24);
+  outline-offset: 2px;
 }
 
-
-/* =========================================================
-   MỤC LỤC – STICKY + CUỘN ĐỘC LẬP
-   ========================================================= */
-
-.toc-panel{
-  position:sticky;
-  top:24px;
-
-  height:calc(100vh - 48px);
-  max-height:calc(100vh - 48px);
-  height:calc(100dvh - 48px);
-  max-height:calc(100dvh - 48px);
-
-  overflow-y:auto;
-  overflow-x:hidden;
-
-  padding:18px 10px 18px;
-
-  background:var(--surface);
-
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-
-  box-shadow:var(--shadow);
-
-  scrollbar-width:thin;
+::selection {
+  background: rgba(179, 0, 0, .14);
 }
 
-.toc-panel::-webkit-scrollbar{
-  width:6px;
-}
-
-.toc-panel::-webkit-scrollbar-track{
-  background:transparent;
-}
-
-.toc-panel::-webkit-scrollbar-thumb{
-  background:#b9c0c7;
-  border-radius:999px;
-}
-
-.toc-panel::-webkit-scrollbar-thumb:hover{
-  background:#8f979f;
-}
-
-.toc-head{
-  position:sticky;
-  top:-18px;
-  z-index:2;
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  padding:3px 12px 12px;
-
-  background:var(--surface);
-  color:var(--brand);
-
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.15em;
-}
-
-#progressText{
-  color:var(--muted);
-  letter-spacing:0;
-}
-
-#tocList{
-  list-style:none;
-  margin:0;
-  padding:0;
-}
-
-#tocList li{
-  margin:2px 0;
-}
-
-#tocList a{
-  display:block;
-
-  padding:7px 10px;
-
-  border-left:2px solid transparent;
-  border-radius:8px;
-
-  color:#536173;
-  text-decoration:none;
-
-  font-size:12.5px;
-  line-height:1.42;
-
-  transition:.15s ease;
-}
-
-html[data-theme="dark"] #tocList a{
-  color:#b2bac5;
-}
-
-#tocList a:hover{
-  color:var(--brand);
-  background:var(--brand-soft);
-}
-
-#tocList a.active{
-  color:var(--brand);
-  background:var(--brand-soft);
-  border-left-color:var(--brand);
-  font-weight:900;
-}
-
-#tocList .level-3 a{
-  padding-left:24px;
-  font-size:12px;
-}
-
-#tocList .level-4 a{
-  padding-left:37px;
-  font-size:11.5px;
-}
-
-
-/* =========================================================
-   STICKY TITLE / HERO
-   ========================================================= */
-
-.reader-main{
-  min-width:0;
-  align-self:start;
-}
-
-.reader-hero{
-  position:sticky;
-  top:0;
-  z-index:100;
-  align-self:flex-start;
-
-  /* Luôn để Hero lấy đúng chiều cao nội dung, không bị stretch */
-  height:auto;
-  min-height:0;
-  max-height:none;
-  align-self:flex-start;
-  overflow:visible;
-
-  width:100%;
-  margin-bottom:18px;
-  padding:28px 34px;
-
-  background:var(--surface);
-
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-
-  box-shadow:0 12px 28px rgba(20,30,40,.10);
-
-  isolation:isolate;
-}
-
-/* ===== GIỮ BOX GUIDELINE CỐ ĐỊNH KHI CUỘN ===== */
-@media(min-width:981px){
-  .reader-main{
-    align-self:start;
+/* Respect reduced-motion users without breaking anchor positioning. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 
-  /* Sticky phải đặt trên lớp vỏ ngoài, vì mobile-sticky-shell
-     là parent của hero. Khi hero tự sticky bên trong parent có
-     chiều cao chỉ bằng hero, nó sẽ không thể bám xuyên suốt tài liệu. */
-  .mobile-sticky-shell{
-    position:sticky !important;
-    top:0 !important;
-    z-index:100 !important;
-    align-self:flex-start !important;
-    width:100%;
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
   }
-
-  .reader-hero{
-    position:relative !important;
-    top:auto !important;
-    z-index:1 !important;
-  }
-}
-
-.reader-hero::after{
-  content:"";
-
-  position:absolute;
-  inset:0;
-  z-index:-1;
-
-  border-radius:inherit;
-
-  background:var(--surface);
-}
-
-.kicker{
-  margin:0 0 10px;
-
-  color:var(--brand);
-
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-}
-
-.reader-hero h1{
-  margin:0;
-
-  color:var(--text);
-
-  font-size:clamp(30px,3vw,44px);
-  line-height:1.12;
-  letter-spacing:-.035em;
-}
-
-.reader-hero p{
-  margin:12px 0 0;
-
-  color:var(--muted);
-
-  font-size:13px;
 }
 
 /* =========================================================
-   HERO – LINK BÀI ĐỌC / LIÊN HỆ
+   04. READER LAYOUT
    ========================================================= */
-
-/* Facebook + Mail: luôn nằm trên cùng một dòng */
-.reader-hero .hero-contact{
-  display:flex;
-  align-items:center;
-  flex-wrap:nowrap;
-  gap:18px;
-  margin-top:10px;
-  min-width:0;
+.reader-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, var(--ml-sidebar-width)) minmax(0, 1fr);
+  gap: var(--ml-content-gap);
+  align-items: start;
+  width: min(calc(100% - 40px), var(--ml-container-max));
+  margin-inline: auto;
+  padding: 24px 0 70px;
 }
 
-.reader-hero .hero-contact-item{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  min-width:0;
-  flex:0 0 auto;
-  color:var(--text-secondary);
-  font-size:13px;
-  line-height:1.5;
-  white-space:nowrap;
+.reader-main {
+  min-width: 0;
+  align-self: start;
 }
 
-.reader-hero .hero-contact-label{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  flex:0 0 16px;
-  width:16px;
-  min-width:16px;
-  color:var(--muted);
+.mobile-sticky-shell {
+  width: 100%;
+  min-width: 0;
 }
-
-.reader-hero .contact-icon{
-  width:16px;
-  height:16px;
-  display:block;
-  flex:0 0 16px;
-}
-
-.reader-hero .facebook-icon{
-  color:#1877f2;
-}
-
-.reader-hero .mail-icon{
-  color:var(--blue-light);
-}
-
-.reader-hero .hero-contact a,
-.reader-hero .hero-reading-link a{
-  min-width:0;
-  color:#000;
-  font-weight:700;
-  text-decoration:none;
-  text-underline-offset:2px;
-}
-
-.reader-hero .hero-contact a:hover,
-.reader-hero .hero-reading-link a:hover{
-  color:#000;
-  text-decoration:underline;
-}
-
-/* Link bài đọc đặt riêng dưới hàng liên hệ */
-.reader-hero .hero-reading-link{
-  display:flex;
-  align-items:baseline;
-  gap:6px;
-  margin-top:8px;
-  padding-top:8px;
-  border-top:1px solid var(--border);
-  min-width:0;
-  color:#000;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.reader-hero .hero-reading-link-label{
-  flex:0 0 auto;
-  font-weight:800;
-}
-
-.reader-hero .hero-reading-link a{
-  overflow-wrap:anywhere;
-  word-break:break-word;
-}
-
-@media(max-width:640px){
-  .reader-hero .hero-contact{
-    gap:14px;
-    margin-top:9px;
-    max-width:100%;
-    overflow-x:auto;
-    overflow-y:hidden;
-    scrollbar-width:none;
-    -webkit-overflow-scrolling:touch;
-  }
-
-  .reader-hero .hero-contact::-webkit-scrollbar{
-    display:none;
-  }
-
-  .reader-hero .hero-contact-item{
-    font-size:12.5px;
-  }
-
-  .reader-hero .hero-reading-link{
-    margin-top:8px;
-    padding-top:8px;
-    font-size:12.5px;
-  }
-}
-
-.hero-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px;
-  margin-top:14px;
-}
-
-.hero-meta span{
-  padding:4px 8px;
-
-  border:1px solid var(--border);
-  border-radius:6px;
-
-  background:var(--surface-soft);
-  color:var(--muted);
-
-  font-size:10px;
-  font-weight:800;
-}
-
 
 /* =========================================================
-   DOCUMENT SURFACE & NỘI DUNG VĂN BẢN
+   05. DESKTOP TOC
    ========================================================= */
-
-.document-surface{
-  width:100%;
-
-  background:var(--surface);
-
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-
-  box-shadow:var(--shadow);
+.toc-panel {
+  position: sticky;
+  top: 24px;
+  z-index: var(--ml-z-toc);
+  height: calc(100dvh - 48px);
+  min-height: 220px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 18px 10px;
+  background: var(--ml-surface);
+  border: 1px solid var(--ml-border);
+  border-radius: var(--ml-radius-lg);
+  box-shadow: var(--ml-shadow-md);
+  scrollbar-width: thin;
 }
 
-.document-surface article{
-  width:100%;
+.toc-panel::-webkit-scrollbar {
+  width: 6px;
+}
 
-  padding:28px 30px 55px;
+.toc-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
 
-  font-size:calc(var(--body-size) * var(--font-scale));
-  text-justify:inter-word;
-  hyphens:auto;
-  -webkit-hyphens:auto;
+.toc-panel::-webkit-scrollbar-thumb {
+  background: #b9c0c7;
+  border-radius: var(--ml-radius-pill);
+}
 
-  line-height:var(--line-height);
+.toc-head {
+  position: sticky;
+  top: -18px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ml-space-3);
+  padding: 3px 12px 12px;
+  background: var(--ml-surface);
+  color: var(--ml-brand);
+  font-family: var(--ml-font-ui);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
 
-  color:var(--text);
+#progressText {
+  color: var(--ml-muted);
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
 
-  /* Mặc định mọi nội dung văn bản là căn đều hai bên; thành phần có quy định riêng sẽ override */
-  text-align:justify;
-  overflow-wrap:break-word;
+#tocList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#tocList li {
+  margin: 2px 0;
+}
+
+#tocList a {
+  display: block;
+  padding: 7px 10px;
+  border-left: 2px solid transparent;
+  border-radius: var(--ml-radius-sm);
+  color: var(--ml-muted);
+  text-decoration: none;
+  font-family: var(--ml-font-ui);
+  font-size: 12.5px;
+  line-height: 1.42;
+  overflow-wrap: anywhere;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+
+#tocList a:is(:hover, .active) {
+  color: var(--ml-brand);
+  background: var(--ml-brand-soft);
+}
+
+#tocList a.active {
+  border-left-color: var(--ml-brand);
+  font-weight: 900;
+}
+
+#tocList .level-3 a {
+  padding-left: 24px;
+  font-size: 12px;
+}
+
+#tocList .level-4 a {
+  padding-left: 37px;
+  font-size: 11.5px;
+}
+
+#tocList .level-5 a {
+  padding-left: 48px;
+  font-size: 11px;
+}
+
+/* =========================================================
+   06. STICKY DOCUMENT HERO
+   ========================================================= */
+.reader-hero {
+  position: sticky;
+  top: 0;
+  z-index: var(--ml-z-sticky);
+  width: 100%;
+  margin: 0 0 18px;
+  padding: 28px 34px;
+  background: var(--ml-surface);
+  border: 1px solid var(--ml-border);
+  border-radius: var(--ml-radius-lg);
+  box-shadow: var(--ml-shadow-lg);
+  isolation: isolate;
+}
+
+.reader-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--ml-surface);
+}
+
+.kicker {
+  margin: 0 0 10px;
+  color: var(--ml-brand);
+  font-family: var(--ml-font-ui);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.reader-hero h1 {
+  margin: 0;
+  color: var(--ml-heading);
+  font-size: clamp(25px, 2.6vw, 38px);
+  line-height: 1.16;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+.reader-hero p:not(.kicker) {
+  margin: 12px 0 0;
+  color: var(--ml-muted);
+  font-size: 13px;
+}
+
+.hero-contact {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  min-width: 0;
+  margin-top: 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hero-contact::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-contact-item {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  color: var(--ml-text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.hero-contact-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 16px;
+  width: 16px;
+  min-width: 16px;
+  color: var(--ml-muted);
+}
+
+.contact-icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.facebook-icon {
+  color: #1877f2;
+}
+
+.mail-icon {
+  color: var(--ml-blue-strong);
+}
+
+.hero-contact a,
+.hero-reading-link a {
+  min-width: 0;
+  color: var(--ml-text);
+  font-weight: 700;
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+.hero-contact a:hover,
+.hero-reading-link a:hover {
+  color: var(--ml-brand);
+  text-decoration: underline;
+}
+
+.hero-reading-link {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--ml-border);
+  color: var(--ml-text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.hero-reading-link-label {
+  flex: 0 0 auto;
+  font-weight: 800;
+}
+
+.hero-reading-link a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 14px;
+}
+
+.hero-meta span {
+  padding: 4px 8px;
+  border: 1px solid var(--ml-border);
+  border-radius: 6px;
+  background: var(--ml-surface-soft);
+  color: var(--ml-muted);
+  font-family: var(--ml-font-ui);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   07. DOCUMENT SURFACE
+   ========================================================= */
+.document-surface {
+  width: 100%;
+  background: var(--ml-surface);
+  border: 1px solid var(--ml-border);
+  border-radius: var(--ml-radius-lg);
+  box-shadow: var(--ml-shadow-md);
+  overflow: clip;
+}
+
+.document-surface article {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 30px 30px 56px;
+  color: var(--ml-text);
+  font-size: calc(var(--ml-body-size) * var(--ml-font-scale));
+  line-height: var(--ml-line-height);
+  text-align: justify;
+  text-justify: auto;
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 .document-surface article,
-.document-surface article *{
-  box-sizing:border-box;
+.document-surface article * {
+  box-sizing: border-box;
 }
 
-.document-surface p,
-.document-surface li,
-.document-surface dt,
-.document-surface dd,
-.document-surface td,
-.document-surface th{
-  color:var(--text);
+/* Do not inherit article justification into UI-like controls/components. */
+.document-surface :where(.toc, .badge, .step-number, .hero-meta, .figure-placeholder) {
+  text-align: initial;
 }
 
-/* Căn đều mặc định cho nội dung văn bản, trừ các thành phần có quy định căn lề riêng */
-.document-surface p,
-.document-surface li,
-.document-surface dt,
-.document-surface dd,
-.document-surface td,
-.document-surface th{
-  text-align:justify;
+.document-surface :where(p, li, dt, dd, td, th) {
+  color: var(--ml-text);
 }
 
-
-.document-surface p{
-  margin:0 0 1rem;
+.document-surface :where(p, li, dt, dd, td, th) {
+  text-align: justify;
 }
 
-.document-surface a{
-  color:var(--blue-light);
-  text-underline-offset:2px;
+.document-surface p {
+  margin: 0 0 1rem;
 }
 
-.document-surface a:hover{
-  color:var(--brand);
+.document-surface a {
+  color: var(--ml-blue-strong);
+  text-underline-offset: 2px;
 }
 
+.document-surface a:hover {
+  color: var(--ml-brand);
+}
 
 /* =========================================================
-   TIÊU ĐỀ TRONG VĂN BẢN
+   08. TYPOGRAPHY / DOCUMENT HIERARCHY
    ========================================================= */
-
-.document-surface h1{
-  font-size:2.2em;
-  line-height:1.2;
-  margin:2rem 0 1.5rem;
-
-  color:var(--brand)!important;
-
-  text-align:center;
-  border:0;
-  letter-spacing:-.01em;
+.document-surface :where(h1, h2, h3, h4, h5) {
+  margin-left: 0;
+  margin-right: 0;
+  font-family: var(--ml-font-reading);
+  font-weight: 800;
+  text-wrap: balance;
+  scroll-margin-top: 24px;
 }
 
-.document-surface h2{
-  font-size:1.8em;
-  line-height:1.3;
-  margin:2em 0 .8em;
-
-  color:var(--brand)!important;
-
-  padding-bottom:.25rem;
+.document-surface h1 {
+  margin-top: 2rem;
+  margin-bottom: 1.2rem;
+  color: var(--ml-brand);
+  font-size: 2.2em;
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: -.01em;
 }
 
-.document-surface h3{
-  font-size:1.4em;
-  line-height:1.35;
-  margin:1.8em 0 .7em;
-
-  color:var(--blue)!important;
+.document-surface h2 {
+  margin-top: 2em;
+  margin-bottom: .8em;
+  color: var(--ml-brand);
+  font-size: 1.8em;
+  line-height: 1.3;
 }
 
-.document-surface h4{
-  font-size:1.2em;
-  line-height:1.4;
-  margin:1.5em 0 .5em;
-
-  color:var(--blue-light)!important;
+.document-surface h3 {
+  margin-top: 1.8em;
+  margin-bottom: .7em;
+  color: var(--ml-blue);
+  font-size: 1.4em;
+  line-height: 1.35;
 }
 
-.document-surface h5{
-  font-size:1.1em;
-  line-height:1.45;
-  margin:1.2em 0 .4em;
-
-  color:var(--text)!important;
-
-  font-style:italic;
+.document-surface h4 {
+  margin-top: 1.5em;
+  margin-bottom: .5em;
+  color: var(--ml-blue-strong);
+  font-size: 1.2em;
+  line-height: 1.4;
 }
 
-.document-surface h1,
-.document-surface h2,
-.document-surface h3,
-.document-surface h4,
-.document-surface h5{
-  scroll-margin-top:24px;
+.document-surface h5 {
+  margin-top: 1.2em;
+  margin-bottom: .4em;
+  color: var(--ml-heading);
+  font-size: 1.1em;
+  line-height: 1.45;
+  font-style: italic;
 }
 
-
-/* =========================================================
-   ĐOẠN VĂN & DANH SÁCH
-   ========================================================= */
-
-.document-surface article>p{
-  text-indent:var(--paragraph-indent);
+.document-surface article > p {
+  text-indent: var(--ml-paragraph-indent);
 }
 
-.document-surface .info-box p,
-.document-surface .step-card p,
-.document-surface table p,
-.document-surface .figure-container p,
-.document-surface .callout p,
-.document-surface .abbr-container p,
-.document-surface .abbreviations p{
-  text-indent:0;
+.document-surface :where(.info-box p, .step-card p, table p, .figure-container p, .callout p, .abbr-container p, .abbreviations p) {
+  text-indent: 0;
 }
 
 .document-surface ul,
-.document-surface ol{
-  margin:.6rem 0 1rem;
-  padding-left:2rem;
+.document-surface ol {
+  margin: .6rem 0 1rem;
+  padding-inline-start: 2rem;
 }
 
-.document-surface li{
-  margin-bottom:.35rem;
+.document-surface li {
+  margin-bottom: .35rem;
 }
-
 
 /* =========================================================
-   FIGURES
+   09. MEDIA / FIGURES
    ========================================================= */
-
-.document-surface figure{
-  margin:2rem auto;
-  text-align:center;
+.document-surface figure {
+  margin: 2rem auto;
+  text-align: center;
 }
 
-.document-surface img,
-.document-surface svg,
-.document-surface video{
-  display:block;
-
-  max-width:100%;
-  height:auto;
-
-  object-fit:contain;
-
-  margin:1.5rem auto;
+.document-surface :where(img, svg, video) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem auto;
+  object-fit: contain;
 }
 
-.document-surface .image-caption{
-  margin-top:8px;
-
-  color:var(--text-secondary);
-
-  font-size:.85em;
-  line-height:1.5;
-
-  text-align:justify;
+.document-surface .image-caption {
+  margin-top: 8px;
+  color: var(--ml-text-secondary);
+  font-size: .85em;
+  line-height: 1.5;
+  text-align: center;
 }
 
-.document-surface .figure-placeholder{
-  margin:20px 0;
-  padding:30px;
-
-  border:2px dashed #999;
-  border-radius:8px;
-
-  background:var(--surface-soft);
-  color:var(--text-secondary);
-
-  text-align:center;
-  font-weight:800;
+.document-surface .figure-placeholder {
+  margin: 20px 0;
+  padding: 30px;
+  border: 2px dashed var(--ml-border-strong);
+  border-radius: var(--ml-radius-sm);
+  background: var(--ml-surface-soft);
+  color: var(--ml-text-secondary);
+  text-align: center;
+  font-weight: 800;
 }
-
 
 /* =========================================================
-   TABLES
+   10. TABLES
    ========================================================= */
-
-.document-surface .table-wrapper{
-  width:100%;
-
-  overflow-x:auto;
-
-  margin:1.5rem 0;
-
-  border-radius:8px;
-
-  -webkit-overflow-scrolling:touch;
+.document-surface .table-wrapper {
+  width: 100%;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  border-radius: var(--ml-radius-sm);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
- .document-surface table{
-  width:100%;
-  min-width:100%;
-
-  border-collapse:collapse;
-  border-spacing:0;
-
-  background:var(--surface);
+.document-surface table {
+  width: 100%;
+  min-width: 100%;
+  border: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  background: var(--ml-surface);
 }
 
-.document-surface caption{
-  caption-side:top;
-
-  padding:0 0 10px;
-
-  color:var(--text);
-
-  font-size:.95em;
-  font-weight:800;
-
-  text-align:center;
+.document-surface caption {
+  padding: 0 0 10px;
+  color: var(--ml-heading);
+  font-size: .95em;
+  font-weight: 800;
+  line-height: 1.45;
+  text-align: center;
 }
 
-.document-surface th,
-.document-surface td{
-  padding:10px 12px;
-
-  border:1px solid var(--document-border);
-
-  text-align:left;
-  vertical-align:top;
+.document-surface :where(th, td) {
+  padding: 10px 12px;
+  border: 1px solid var(--ml-document-border);
+  vertical-align: top;
+  text-align: left;
 }
 
-.document-surface th{
-  background:#f4f6f8;
-
-  color:#222;
-
-  font-weight:800;
+.document-surface th {
+  background: #f4f6f8;
+  color: #222;
+  font-weight: 800;
 }
 
-.document-surface .table-section-header{
-  background:#d9e1e8!important;
-  color:#222!important;
-
-  font-weight:800;
+.document-surface .table-section-header {
+  background: #d9e1e8 !important;
+  color: #222 !important;
+  font-weight: 800;
 }
 
-.document-surface .ws-nowrap{
-  white-space:nowrap;
+.document-surface .ws-nowrap {
+  white-space: nowrap;
 }
 
-.document-surface tbody tr:hover{
-  background:rgba(179,0,0,.025);
+.document-surface tbody tr:hover {
+  background: rgba(179, 0, 0, .025);
 }
 
-.document-surface .rec-table th{
-  background:var(--blue)!important;
-  color:#fff!important;
-
-  text-align:center!important;
+.document-surface .rec-table th {
+  background: var(--ml-blue) !important;
+  color: #fff !important;
+  text-align: center !important;
 }
 
+/* Optional sticky table header for tall overflow containers. */
+.document-surface .table-wrapper.is-tall th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
 
 /* =========================================================
-   RECOMMENDATION / EVIDENCE
+   11. RECOMMENDATIONS / EVIDENCE BADGES
    ========================================================= */
-
-.document-surface .class-I{
-  background:var(--class-i)!important;
-  color:#fff!important;
-
-  text-align:center!important;
-  vertical-align:middle!important;
-
-  font-weight:800!important;
+.document-surface :where(.class-I, .class-IIa, .class-IIb, .class-III,
+  .level-A, .level-B, .level-b1, .level-b2, .level-C) {
+  text-align: center !important;
+  vertical-align: middle !important;
+  font-weight: 800 !important;
+  font-family: var(--ml-font-ui);
 }
 
-.document-surface .class-IIa{
-  background:var(--class-iia)!important;
-  color:#000!important;
-
-  text-align:center!important;
-  vertical-align:middle!important;
-
-  font-weight:800!important;
-}
-
-.document-surface .class-IIb{
-  background:var(--class-iib)!important;
-  color:#000!important;
-
-  text-align:center!important;
-  vertical-align:middle!important;
-
-  font-weight:800!important;
-}
-
-.document-surface .class-III{
-  background:var(--class-iii)!important;
-  color:#fff!important;
-
-  text-align:center!important;
-  vertical-align:middle!important;
-
-  font-weight:800!important;
-}
-
-.document-surface .level-A{
-  background:var(--level-a)!important;
-  color:#fff!important;
-
-  text-align:center!important;
-  vertical-align:middle!important;
-
-  font-weight:800!important;
-}
-
+.document-surface .class-I { background: var(--ml-class-i) !important; color: #fff !important; }
+.document-surface .class-IIa { background: var(--ml-class-iia) !important; color: #000 !important; }
+.document-surface .class-IIb { background: var(--ml-class-iib) !important; color: #000 !important; }
+.document-surface .class-III { background: var(--ml-class-iii) !important; color: #fff !important; }
+.document-surface .level-A { background: var(--ml-level-a) !important; color: #fff !important; }
 .document-surface .level-B,
-.document-surface .level-b1{
-  background:var(--level-b1)!important;
-  color:#fff!important;
-
-  text-align:center!important;
-  vertical-align:middle!important;
-
-  font-weight:800!important;
-}
-
-.document-surface .level-b2{
-  background:var(--level-b2)!important;
-  color:#fff!important;
-
-  text-align:center!important;
-  vertical-align:middle!important;
-
-  font-weight:800!important;
-}
-
-.document-surface .level-C{
-  background:var(--level-c)!important;
-  color:#000!important;
-
-  text-align:center!important;
-  vertical-align:middle!important;
-
-  font-weight:800!important;
-}
-
+.document-surface .level-b1 { background: var(--ml-level-b1) !important; color: #fff !important; }
+.document-surface .level-b2 { background: var(--ml-level-b2) !important; color: #fff !important; }
+.document-surface .level-C { background: var(--ml-level-c) !important; color: #000 !important; }
 
 /* =========================================================
-   COMPONENTS
+   12. DOCUMENT COMPONENTS
    ========================================================= */
-
-.document-surface .highlight-text{
-  color:var(--brand)!important;
-  font-weight:800;
+.document-surface .highlight-text {
+  color: var(--ml-brand) !important;
+  font-weight: 800;
 }
 
-.document-surface .info-box{
-  padding:15px;
-  margin-bottom:1.5rem;
-
-  border-left:4px solid var(--blue);
-  border-radius:0 8px 8px 0;
-
-  background:var(--surface-soft);
+.document-surface .info-box {
+  margin: 0 0 1.5rem;
+  padding: 15px;
+  border-inline-start: 4px solid var(--ml-blue);
+  border-radius: 0 var(--ml-radius-sm) var(--ml-radius-sm) 0;
+  background: var(--ml-surface-soft);
 }
 
-.document-surface .step-card{
-  padding:16px;
-  margin-bottom:15px;
-
-  border:1px solid var(--document-border);
-  border-radius:10px;
-
-  background:var(--surface);
-
-  box-shadow:0 2px 8px rgba(0,0,0,.04);
+.document-surface .step-card {
+  margin: 0 0 15px;
+  padding: 16px;
+  border: 1px solid var(--ml-document-border);
+  border-radius: 10px;
+  background: var(--ml-surface);
+  box-shadow: var(--ml-shadow-sm);
 }
 
-.document-surface .step-card strong{
-  display:block;
-
-  margin-bottom:5px;
-
-  color:var(--blue-light);
-
-  font-size:1.1em;
+.document-surface .step-card strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--ml-blue-strong);
+  font-size: 1.1em;
 }
 
-.document-surface .step-number{
-  display:inline-flex;
-
-  width:30px;
-  height:30px;
-
-  align-items:center;
-  justify-content:center;
-
-  margin-right:10px;
-
-  border-radius:50%;
-
-  background:var(--brand);
-  color:#fff;
-
-  font-weight:800;
+.document-surface .step-number {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  margin-inline-end: 10px;
+  border-radius: 50%;
+  background: var(--ml-brand);
+  color: #fff;
+  font-weight: 800;
+  font-family: var(--ml-font-ui);
+  line-height: 1;
 }
-
 
 /* =========================================================
-   ABBREVIATIONS
+   13. ABBREVIATIONS
    ========================================================= */
-
-.document-surface .abbreviations{
-  padding:15px 20px;
-  margin-bottom:2rem;
-
-  border-left:4px solid #c0c0c0;
-
-  background:var(--surface-soft);
-  color:var(--text-secondary);
-
-  line-height:1.6;
+.document-surface .abbreviations {
+  margin-bottom: 2rem;
+  padding: 15px 20px;
+  border-inline-start: 4px solid #c0c0c0;
+  background: var(--ml-surface-soft);
+  color: var(--ml-text-secondary);
+  line-height: 1.6;
 }
 
-.document-surface .abbr-container{
-  padding:20px 25px;
-  margin-bottom:2rem;
-
-  border:1px solid var(--document-border);
-  border-top:4px solid #008000;
-  border-radius:10px;
-
-  background:var(--surface);
-
-  box-shadow:0 3px 12px rgba(0,0,0,.04);
+.document-surface .abbr-container {
+  margin-bottom: 2rem;
+  padding: 20px 25px;
+  border: 1px solid var(--ml-document-border);
+  border-top: 4px solid #008000;
+  border-radius: 10px;
+  background: var(--ml-surface);
+  box-shadow: var(--ml-shadow-sm);
 }
 
-.document-surface .compact-grid{
-  display:grid;
-
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-
-  gap:10px 20px;
-
-  margin:0;
+.document-surface .compact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px 20px;
+  margin: 0;
 }
 
-.document-surface .abbr-row{
-  display:flex;
-
-  align-items:flex-start;
-
-  padding:7px 0;
-
-  border-bottom:1px dashed var(--document-border);
+.document-surface .abbr-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--ml-document-border);
 }
 
-.document-surface .abbr-row dt{
-  flex:0 0 95px;
-
-  margin:0;
-
-  color:#008000;
-
-  font-weight:900;
+.document-surface .abbr-row dt {
+  flex: 0 0 95px;
+  margin: 0;
+  color: #008000;
+  font-weight: 900;
 }
 
-.document-surface .abbr-row dd{
-  flex:1;
-
-  margin:0;
-
-  color:var(--text);
-
-  font-weight:800;
-  line-height:1.4;
+.document-surface .abbr-row dd {
+  flex: 1;
+  margin: 0;
+  color: var(--ml-text);
+  font-weight: 800;
+  line-height: 1.4;
 }
 
-.document-surface .vi-trans{
-  display:block;
-
-  margin-top:3px;
-
-  color:var(--text-secondary);
-
-  font-size:.95em;
-
-  font-style:italic;
-  font-weight:400;
+.document-surface .vi-trans {
+  display: block;
+  margin-top: 3px;
+  color: var(--ml-text-secondary);
+  font-size: .95em;
+  font-style: italic;
+  font-weight: 400;
 }
-
 
 /* =========================================================
-   LAYOUT HELPERS
+   14. LAYOUT HELPERS / FORMULA SUPPORT
    ========================================================= */
-
-.document-surface .grid-2col{
-  display:grid;
-
-  grid-template-columns:repeat(2,minmax(0,1fr));
-
-  gap:1.5rem;
-
-  align-items:start;
+.document-surface .grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: start;
 }
 
-.document-surface .grid-3col{
-  display:grid;
-
-  grid-template-columns:repeat(3,minmax(0,1fr));
-
-  gap:1.5rem;
-
-  align-items:start;
+.document-surface .grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: start;
 }
 
-.document-surface .flex-columns{
-  display:flex;
-
-  flex-wrap:wrap;
-
-  justify-content:space-between;
-
-  gap:1.5rem;
+.document-surface .flex-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
-.document-surface .flex-column-item{
-  flex:1;
-
-  min-width:300px;
+.document-surface .flex-column-item {
+  flex: 1 1 280px;
+  min-width: 0;
 }
 
-.document-surface mjx-container{
-  max-width:100%;
-
-  overflow-x:auto;
-  overflow-y:hidden;
+.document-surface mjx-container {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
-.document-surface mjx-container[display="true"]{
-  margin:1.2rem 0!important;
+.document-surface mjx-container[display="true"] {
+  margin: 1.2rem 0 !important;
 }
-
 
 /* =========================================================
-   DARK MODE
+   15. MOBILE TOC
    ========================================================= */
+.mobile-toc {
+  display: none;
+}
 
+/* =========================================================
+   16. DARK MODE — COMPONENT OVERRIDES
+   ========================================================= */
+html[data-theme="dark"] .reader-hero,
+html[data-theme="dark"] .reader-hero::after,
 html[data-theme="dark"] .document-surface,
-html[data-theme="dark"] .document-surface article{
-  background:#15181c;
-}
-
-html[data-theme="dark"] .document-surface p,
-html[data-theme="dark"] .document-surface li,
-html[data-theme="dark"] .document-surface dt,
-html[data-theme="dark"] .document-surface dd,
-html[data-theme="dark"] .document-surface td,
-html[data-theme="dark"] .document-surface th{
-  color:#eef2f6!important;
-}
-
-html[data-theme="dark"] .document-surface h1,
-html[data-theme="dark"] .document-surface h2{
-  color:#dd3535!important;
-}
-
-html[data-theme="dark"] .document-surface h3{
-  color:#79add8!important;
-}
-
-html[data-theme="dark"] .document-surface h4{
-  color:#8db9e4!important;
-}
-
-html[data-theme="dark"] .document-surface h5{
-  color:#eef2f6!important;
-}
-
-html[data-theme="dark"] .document-surface th,
-html[data-theme="dark"] .document-surface td{
-  border-color:#30363d!important;
-}
-
-html[data-theme="dark"] .document-surface th{
-  background:#20252b!important;
-  color:#eef2f6!important;
-}
-
-html[data-theme="dark"] .document-surface .table-section-header{
-  background:#29333d!important;
-  color:#eef2f6!important;
-}
-
-html[data-theme="dark"] .document-surface .rec-table th{
-  background:#173f49!important;
-  color:#fff!important;
-}
-
-html[data-theme="dark"] .document-surface .abbr-container,
+html[data-theme="dark"] .document-surface article,
+html[data-theme="dark"] .toc-panel,
+html[data-theme="dark"] .toc-head,
+html[data-theme="dark"] .mobile-toc,
 html[data-theme="dark"] .document-surface .step-card,
-html[data-theme="dark"] .document-surface .info-box,
-html[data-theme="dark"] .document-surface .abbreviations,
-html[data-theme="dark"] .document-surface .figure-placeholder{
-  background:#1a1e23!important;
-  border-color:#30363d!important;
+html[data-theme="dark"] .document-surface .abbr-container {
+  background: var(--ml-surface);
 }
 
-html[data-theme="dark"] .document-surface .abbr-row{
-  border-color:#30363d!important;
+html[data-theme="dark"] .document-surface th {
+  background: #20252b;
+  color: #eef2f6;
 }
 
-html[data-theme="dark"] .document-surface .abbr-row dt{
-  color:#45b765!important;
+html[data-theme="dark"] .document-surface .table-section-header {
+  background: #29333d !important;
+  color: #eef2f6 !important;
+}
+
+html[data-theme="dark"] .document-surface .rec-table th {
+  background: #173f49 !important;
+  color: #fff !important;
+}
+
+html[data-theme="dark"] .document-surface :where(td, th) {
+  border-color: var(--ml-border) !important;
+}
+
+html[data-theme="dark"] .document-surface :where(.info-box, .abbreviations, .figure-placeholder) {
+  background: var(--ml-surface-raised);
+  border-color: var(--ml-border);
+}
+
+html[data-theme="dark"] .document-surface .abbr-row {
+  border-color: var(--ml-border);
+}
+
+html[data-theme="dark"] .document-surface .abbr-row dt {
+  color: #62c977;
 }
 
 html[data-theme="dark"] .document-surface .vi-trans,
-html[data-theme="dark"] .document-surface .image-caption{
-  color:#b8c1cc!important;
+html[data-theme="dark"] .document-surface .image-caption {
+  color: #b8c1cc;
 }
 
-html[data-theme="dark"] .document-surface a{
-  color:#8ab4ff!important;
+html[data-theme="dark"] .document-surface a {
+  color: #8ab4ff;
 }
 
-html[data-theme="dark"] .document-surface .highlight-text{
-  color:#ff7777!important;
+html[data-theme="dark"] .document-surface .highlight-text {
+  color: #ff7777 !important;
 }
 
-html[data-theme="dark"] .document-surface .class-I{
-  background:#4caf50!important;
-  color:#fff!important;
-}
-
-html[data-theme="dark"] .document-surface .class-IIa{
-  background:#ffc107!important;
-  color:#000!important;
-}
-
-html[data-theme="dark"] .document-surface .class-IIb{
-  background:#ff9800!important;
-  color:#000!important;
-}
-
-html[data-theme="dark"] .document-surface .class-III{
-  background:#f44336!important;
-  color:#fff!important;
-}
-
-html[data-theme="dark"] .document-surface .level-A{
-  background:#00798c!important;
-  color:#fff!important;
-}
-
+/* Preserve semantic recommendation colors in dark mode. */
+html[data-theme="dark"] .document-surface .class-I { background: #4caf50 !important; color: #fff !important; }
+html[data-theme="dark"] .document-surface .class-IIa { background: #ffc107 !important; color: #000 !important; }
+html[data-theme="dark"] .document-surface .class-IIb { background: #ff9800 !important; color: #000 !important; }
+html[data-theme="dark"] .document-surface .class-III { background: #f44336 !important; color: #fff !important; }
+html[data-theme="dark"] .document-surface .level-A { background: #00798c !important; color: #fff !important; }
 html[data-theme="dark"] .document-surface .level-B,
-html[data-theme="dark"] .document-surface .level-b1{
-  background:#459a96!important;
-  color:#fff!important;
-}
+html[data-theme="dark"] .document-surface .level-b1 { background: #459a96 !important; color: #fff !important; }
+html[data-theme="dark"] .document-surface .level-b2 { background: #67a8a4 !important; color: #fff !important; }
+html[data-theme="dark"] .document-surface .level-C { background: #83b6b2 !important; color: #000 !important; }
 
-html[data-theme="dark"] .document-surface .level-b2{
-  background:#67a8a4!important;
-  color:#fff!important;
-}
-
-html[data-theme="dark"] .document-surface .level-C{
-  background:#83b6b2!important;
-  color:#000!important;
-}
-
+/* Compatibility bridge for legacy inline black text in dark documents. */
 html[data-theme="dark"] .document-surface [style*="color: #000000"],
 html[data-theme="dark"] .document-surface [style*="color:#000000"],
 html[data-theme="dark"] .document-surface [style*="color: #000"],
-html[data-theme="dark"] .document-surface [style*="color:#000"]{
-  color:#eef2f6!important;
+html[data-theme="dark"] .document-surface [style*="color:#000"] {
+  color: #eef2f6 !important;
 }
-
 
 /* =========================================================
-   RESPONSIVE / MEDIA QUERIES
+   17. RESPONSIVE SYSTEM
    ========================================================= */
-
-.mobile-sticky-shell{
-  width:100%;
-  min-width:0;
-}
-
-.mobile-toc{
-  display:none;
-}
-
-@media(max-width:980px){
-  :root{
-    --sidebar-width:0px;
-    --body-size:15.5px;
+@media (max-width: 980px) {
+  :root {
+    --ml-body-size: var(--ml-body-size-tablet);
   }
 
-  .reader-layout{
-    display:block;
-    width:calc(100% - 20px);
-    max-width:1320px;
-    padding-top:10px;
+  .reader-layout {
+    display: block;
+    width: min(calc(100% - 20px), var(--ml-container-max));
+    padding-top: 10px;
   }
 
-  .toc-panel{
-    display:none;
+  .toc-panel {
+    display: none;
   }
 
-  .mobile-toc{
-    width:100%;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin:0 0 12px;
-    padding:9px 11px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    background:var(--surface);
+  .mobile-toc {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin: 0 0 12px;
+    padding: 9px 11px;
+    border: 1px solid var(--ml-border);
+    border-radius: var(--ml-radius-md);
+    background: var(--ml-surface);
   }
 
-  .mobile-toc label{
-    color:var(--muted);
-    font-size:11px;
-    font-weight:900;
-    white-space:nowrap;
+  .mobile-toc label {
+    flex: 0 0 auto;
+    color: var(--ml-muted);
+    font-family: var(--ml-font-ui);
+    font-size: 11px;
+    font-weight: 900;
+    white-space: nowrap;
   }
 
-  .mobile-toc select{
-    flex:1 1 auto;
-    min-width:0;
-    max-width:100%;
-    min-height:44px;
-    height:44px;
-    padding:0 8px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    background:var(--surface);
-    color:var(--text);
+  .mobile-toc select {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 44px;
+    height: 44px;
+    padding: 0 8px;
+    border: 1px solid var(--ml-border);
+    border-radius: var(--ml-radius-sm);
+    background: var(--ml-surface);
+    color: var(--ml-text);
   }
 
-  /* Hero + Mục lục cố định cùng nhau trên mobile/tablet */
-  .mobile-sticky-shell{
-    position:sticky;
-    top:0;
-    z-index:60;
-    width:100%;
-    padding-top:10px;
-    background:var(--page-bg);
+  /* Hero + mobile TOC share the same sticky context. */
+  .mobile-sticky-shell {
+    position: sticky;
+    top: 0;
+    z-index: var(--ml-z-sticky);
+    padding-top: 10px;
+    background: var(--ml-page-bg);
   }
 
-  .reader-hero{
-    position:relative;
-    top:auto;
-    z-index:1;
-    height:auto !important;
-    min-height:0 !important;
-    max-height:none !important;
-    padding:20px;
-    margin:0 0 14px;
-    box-shadow:var(--shadow);
+  .reader-hero {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 14px;
+    padding: 20px;
+    border-radius: var(--ml-radius-md);
+    box-shadow: var(--ml-shadow-md);
   }
 
-  .reader-hero h1{
-    font-size:24px;
+  .reader-hero h1 {
+    font-size: 24px;
   }
 
-  .document-surface article{
-    padding:20px 18px 40px;
+  .document-surface article {
+    padding: 20px 18px 40px;
   }
 }
 
-@media(max-width:640px){
-  :root{
-    --body-size:15px;
-    --paragraph-indent:0;
-    --line-height:1.6;
+@media (max-width: 640px) {
+  :root {
+    --ml-body-size: var(--ml-body-size-mobile);
+    --ml-paragraph-indent: 0;
+    --ml-line-height: 1.62;
   }
 
-  .reader-layout{
-    width:calc(100% - 16px);
-    padding-left:max(0px, env(safe-area-inset-left));
-    padding-right:max(0px, env(safe-area-inset-right));
+  .reader-layout {
+    width: calc(100% - 12px);
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
   }
 
-  .mobile-sticky-shell{
-    padding-top:8px;
+  .mobile-sticky-shell {
+    padding-top: 8px;
   }
 
-  .reader-hero{
-    height:auto !important;
-    min-height:0 !important;
-    padding:16px 14px;
-    border-radius:12px;
+  .reader-hero {
+    padding: 16px 14px;
+    border-radius: var(--ml-radius-md);
   }
 
-  .reader-hero h1{
-    font-size:21px;
-    line-height:1.25;
+  .reader-hero h1 {
+    font-size: 21px;
+    line-height: 1.25;
   }
 
-  .reader-hero p{
-    font-size:12.5px;
+  .reader-hero p:not(.kicker),
+  .hero-contact-item,
+  .hero-reading-link {
+    font-size: 12.5px;
   }
 
-  .hero-meta{
-    gap:6px;
-    margin-top:12px;
+  .hero-contact {
+    gap: 14px;
   }
 
-  .hero-meta span{
-    font-size:9.5px;
+  .hero-meta {
+    gap: 6px;
+    margin-top: 12px;
   }
 
-  .document-surface{
-    border-radius:12px;
+  .hero-meta span {
+    font-size: 9.5px;
   }
 
-  .document-surface article{
-    padding:16px 14px 35px;
-    text-align:justify;
-    min-width:0;
+  .document-surface {
+    border-radius: var(--ml-radius-md);
   }
 
-  .document-surface a,
-  .document-surface td,
-  .document-surface th{
-    overflow-wrap:anywhere;
+  .document-surface article {
+    padding: 16px 14px 35px;
   }
 
-  .document-surface h1{ font-size:1.45em; margin:1.4rem 0 .8rem; }
-  .document-surface h2{ font-size:1.3em; margin:1.3em 0 .6em; }
-  .document-surface h3{ font-size:1.15em; margin:1.1em 0 .5em; }
-  .document-surface h4{ font-size:1.05em; margin:1em 0 .4em; }
-  .document-surface h5{ font-size:.95em; }
-
-  .document-surface h1,
-  .document-surface h2,
-  .document-surface h3,
-  .document-surface h4,
-  .document-surface h5{
-    scroll-margin-top:12px;
+  .document-surface :where(a, td, th) {
+    overflow-wrap: anywhere;
   }
 
-  .document-surface article>p{
-    text-indent:0;
+  .document-surface h1 { font-size: 1.45em; margin: 1.4rem 0 .8rem; }
+  .document-surface h2 { font-size: 1.3em; margin: 1.3em 0 .6em; }
+  .document-surface h3 { font-size: 1.15em; margin: 1.1em 0 .5em; }
+  .document-surface h4 { font-size: 1.05em; margin: 1em 0 .4em; }
+  .document-surface h5 { font-size: .95em; }
+
+  .document-surface :where(h1, h2, h3, h4, h5) {
+    scroll-margin-top: 12px;
   }
 
-  .document-surface table{
-    font-size:13.5px;
+  .document-surface article > p {
+    text-indent: 0;
   }
 
-  /* Fallback for wide tables. Prefer .table-wrapper when authoring tables. */
-  .document-surface .table-wrapper{
-    max-width:100%;
-    touch-action:pan-x;
-    overflow-x:auto;
-    overscroll-behavior-x:contain;
-    scrollbar-width:thin;
+  .document-surface table {
+    font-size: 13.5px;
   }
 
-  .document-surface .table-wrapper table{
-    width:max-content;
-    min-width:100%;
+  .document-surface .table-wrapper {
+    touch-action: pan-x;
   }
 
-  .document-surface th,
-  .document-surface td{
-    padding:7px 8px;
-    text-align:justify;
+  .document-surface .table-wrapper table {
+    width: max-content;
+    min-width: 100%;
   }
 
-  .document-surface .info-box,
-  .document-surface .step-card,
-  .document-surface .abbreviations{
-    font-size:14px;
-    padding:12px;
+  .document-surface :where(th, td) {
+    padding: 7px 8px;
+  }
+
+  .document-surface :where(.info-box, .step-card, .abbreviations) {
+    padding: 12px;
+    font-size: 14px;
   }
 
   .document-surface .grid-2col,
-  .document-surface .grid-3col{
-    grid-template-columns:1fr;
+  .document-surface .grid-3col {
+    grid-template-columns: 1fr;
   }
 
-  .document-surface .flex-column-item{
-    min-width:100%;
+  .document-surface .flex-column-item {
+    min-width: 100%;
   }
 
-  .document-surface .abbr-container{
-    padding:14px;
+  .document-surface .abbr-container {
+    padding: 14px;
   }
 
-  .document-surface .compact-grid{
-    grid-template-columns:1fr;
+  .document-surface .compact-grid {
+    grid-template-columns: 1fr;
   }
 
-  .document-surface .abbr-row{
-    display:block;
+  .document-surface .abbr-row {
+    display: block;
   }
 
-  .document-surface .abbr-row dt{
-    margin-bottom:2px;
+  .document-surface .abbr-row dt {
+    margin-bottom: 2px;
   }
 }
 
+/* Very narrow phones: prevent the sticky shell from eating the viewport. */
+@media (max-width: 380px) {
+  .reader-layout {
+    width: 100%;
+  }
+
+  .reader-hero {
+    padding-inline: 12px;
+  }
+
+  .mobile-toc {
+    padding-inline: 8px;
+  }
+
+  .mobile-toc select {
+    min-height: 42px;
+    height: 42px;
+  }
+}
 
 /* =========================================================
    PRINT / PDF
@@ -1452,7 +1262,7 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
     }
 
     @top-left{
-      content:"Khuyến cáo ESC 2026 về quản lý bệnh tim mạch và bệnh thận mạn, phối hợp với Hiệp hội Thận học Châu Âu (ERA)";
+      content:"Khuyến cáo ESC 2026 về quản lý bệnh tim mạch và bệnh thận mạn";
       background:#860000;
       color:#fff;
       font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
@@ -1493,7 +1303,7 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
     }
 
     @bottom-left{
-      content:"ⓕ  Hoàng Linh";
+      content:"BS. Hoàng Linh";
       background:#e3e3e3;
       color:#111;
       font-family:"Noto Sans","Segoe UI",Roboto,Arial,sans-serif;
@@ -1688,7 +1498,6 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
     text-decoration:none!important;
   }
 }
-
 </style>
 
 <body>
@@ -1711,7 +1520,7 @@ html[data-theme="dark"] .document-surface [style*="color:#000"]{
       <section class="reader-hero" id="readerHero">
         <p class="kicker">GUIDELINE</p>
     <h1 style="color: #b30000; font-size: 25px;">
-        Khuyến cáo ESC 2026 về quản lý bệnh tim mạch và bệnh thận mạn, phối hợp với Hiệp hội Thận học Châu Âu (ERA).
+            Khuyến cáo ESC 2026 về quản lý bệnh tim mạch và bệnh thận mạn
         </h1>
         <p>Biên dịch: <strong style="color: #0066cc;">BS. TRẦN THANH HOÀNG LINH</strong></p>
 
